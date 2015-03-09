@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/green" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="28dp"
+        android:background="@drawable/top_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="5dp" >
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/manage" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="APPLIACATION"
+            android:textColor="#000"
+            android:textSize="14dp" />
+    </LinearLayout>
+
+    <GridView
+        android:id="@+id/gridView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="58dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="28dp"
+        android:horizontalSpacing="10dp"
+        android:listSelector="@drawable/choose_gridview"
+        android:numColumns="4"
+        android:verticalSpacing="10dp" />
+
+    <ListView
+        android:id="@+id/lv_apps"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="58dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="28dp"
+        android:listSelector="@drawable/choose_listview"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bottom_bg"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/ib_change_view"
+            android:layout_width="76dp"
+            android:layout_height="52dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/list" />
+
+        <ImageButton
+            android:id="@+id/ib_change_category"
+            android:layout_width="76dp"
+            android:layout_height="52dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/all" />
+          <ImageButton
+            android:id="@+id/exit"
+            android:layout_width="76dp"
+            android:layout_height="52dp"
+            android:layout_alignParentRight="true"
+            
+            android:src="@drawable/exit" /> 
+             
+    </RelativeLayout>
+
+
+</RelativeLayout>
