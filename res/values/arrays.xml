@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="choice">
+    	<item name="start">启动应用程序</item>
+    	<item name="detail">查看应用程序</item>
+    	<item name="uninstall">卸载应用程序</item>
+    </array>
+</resources>
