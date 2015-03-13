@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ActionBar.LayoutParams;
 import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
@@ -14,6 +15,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,13 +28,17 @@ import android.view.animation.LayoutAnimationController;
 import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class ShowApp extends Activity implements Runnable,OnClickListener{
@@ -41,7 +47,7 @@ public class ShowApp extends Activity implements Runnable,OnClickListener{
 	private ListView listView ; 
 	private List<PackageInfo> packageInfos = null; 
 	private List<PackageInfo> userPackageInfos = null;
-		private boolean isAllApp = true; 
+	private boolean isAllApp = true; 
 
 	private ImageButton changeViewBtn ;
 	private ImageButton changeCategoryBtn;
@@ -51,6 +57,56 @@ public class ShowApp extends Activity implements Runnable,OnClickListener{
 	private   int SEARCH_APP = 0 ;
 	private   int DELETE_APP = 1;
 	
+	public class ListItemAdapter extends BaseAdapter {
+		private int[] imgIds = {R.drawable.open,   
+	            R.drawable.detailinformation, R.drawable.trash_green_full}; 
+		@Override
+		public int getCount() {
+			// TODO Auto-generated method stub
+			return imgIds.length;
+		}
+
+		@Override
+		public Object getItem(int position) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public long getItemId(int position) {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			// TODO Auto-generated method stub
+			TextView textView =   
+	                new TextView(ShowApp.this);  
+	            //获得array.xml中的数组资源getStringArray返回的是一个String数组  
+	            String text =getResources().getStringArray(R.array.choice)[position];
+	            textView.setText(text);  
+	            //设置字体大小  
+	            textView.setTextSize(24);  
+	            AbsListView.LayoutParams layoutParams = new AbsListView.LayoutParams(  
+	                    LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT);  
+	            	            textView.setLayoutParams(layoutParams);  
+	            //设置水平方向上居中  
+	            textView.setGravity(android.view.Gravity.CENTER_VERTICAL);
+	           
+	            textView.setMinHeight(45);  
+	            //设置文字颜色  
+	            textView.setTextColor(Color.BLACK);    
+	            //设置图标在文字的左边  
+	            textView.setCompoundDrawablesWithIntrinsicBounds(imgIds[position], 0, 0, 0);  
+	            //设置textView的左上右下的padding大小  
+	            textView.setPadding(15, 0, 15, 0);  
+	            //设置文字和图标之间的padding大小  
+	            textView.setCompoundDrawablePadding(15);  
+	            return textView;  
+	        }  
+		}
+
 	
 	private Handler handler = new Handler() {
 		// 当消息发送过来的时候会执行下面这个方法
@@ -138,7 +194,9 @@ public class ShowApp extends Activity implements Runnable,OnClickListener{
 		      
 			builder.setTitle("选项");
 			//接收一个资源的ID
-			builder.setItems(R.array.choice,new DialogInterface.OnClickListener() {
+			builder.setIcon(R.drawable.manage);
+			BaseAdapter adapter = new ListItemAdapter();
+			builder.setAdapter(adapter,new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					switch (which) {
@@ -173,6 +231,7 @@ public class ShowApp extends Activity implements Runnable,OnClickListener{
 					}
 				}
 			});
+			
 			//此处设为null，因为默认就实现了关闭功能
 			builder.setNegativeButton("取消", null);
 			
@@ -180,7 +239,8 @@ public class ShowApp extends Activity implements Runnable,OnClickListener{
 		}
 	};
 		@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	
+protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		//获得所有apk
 		packageInfos = getPackageManager().getInstalledPackages(PackageManager.GET_UNINSTALLED_PACKAGES | PackageManager.GET_ACTIVITIES);
@@ -218,7 +278,7 @@ public class ShowApp extends Activity implements Runnable,OnClickListener{
 		message.append("程序名称:" + packageInfo.applicationInfo.loadLabel(getPackageManager()));
 		message.append("\n 包名:" + packageInfo.packageName);//包名
 		message.append("\n 版本号:" + packageInfo.versionCode);//版本号
-		message.append("\n 版本名:" + packageInfo.versionName);//版本名		
+		message.append("\n 版本名:" + packageInfo.versionName);//版本名
 		builder.setMessage(message.toString());
 		builder.setIcon(packageInfo.applicationInfo.loadIcon(getPackageManager()));
 		builder.setPositiveButton("确定", null);//仅仅是让Dialog消失
